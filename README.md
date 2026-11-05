@@ -34,7 +34,7 @@ Open Lab 1 from the project root, then run the remaining bounded experiments:
 9. `9_aqe_phase_split.py` — AQE on/off with logical and physical phases separated.
 
 ```powershell
-python -m notebook lab_01__the_unborn_query.ipynb
+jupyter notebook lab_01__the_unborn_query.ipynb
 python 2_nulls_and_duplicates.py
 python 3_constraint_growth.py --alias-depth 6
 python 4_outer_vs_anti.py --rows 240
