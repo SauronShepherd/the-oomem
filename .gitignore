@@ -1,0 +1,15 @@
+.venv/
+.idea/
+__pycache__/
+*.egg-info/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.sparkStaging/
+spark-warehouse/
+metastore_db/
+workspace/
+*.hprof
+*.heapdump
+*.tdump
+*.jfr
