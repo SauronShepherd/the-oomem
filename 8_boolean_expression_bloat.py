@@ -13,6 +13,13 @@ def nested_case(depth: int):
     return expression
 
 
+def nested_boolean(depth: int):
+    predicate = F.lit(False)
+    for index in range(depth):
+        predicate = predicate | ((F.col('id') % (index + 2)) == 0)
+    return predicate
+
+
 def plan_metrics(label, frame):
     query = frame._jdf.queryExecution()
     analyzed = query.analyzed().treeString()
@@ -32,9 +39,10 @@ def main() -> None:
         frame = spark.range(32).select(
             'id',
             nested_case(args.depth).alias('classification'),
+            nested_boolean(args.depth).alias('matches'),
         )
-        metrics = plan_metrics('nested CASE', frame)
-        print(f'nested CASE depth {args.depth}: {metrics}')
+        metrics = plan_metrics('nested CASE + boolean predicate', frame)
+        print(f'nested CASE and boolean predicate depth {args.depth}: {metrics}')
         print('Conclusion: expression simplification can reduce work, but it must first parse, resolve, canonicalize, and inspect the entire tree.')
         print('This is expression depth rather than join cardinality: the input is tiny, the compiler tree is not.')
     finally:
