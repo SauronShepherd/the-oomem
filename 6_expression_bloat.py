@@ -26,8 +26,9 @@ def main() -> None:
     spark = get_spark(args)
     try:
         banner('Lab 6 — The expression tree that keeps getting copied')
-        compact = spark.range(32).select(deep_expression(args.depth).alias('value'))
-        repeated = spark.range(32).select(
+        base = spark.range(32)
+        compact = base.select(deep_expression(args.depth).alias('value'))
+        repeated = base.select(
             *[deep_expression(args.depth).alias(f'value_{index}')
               for index in range(args.width)]
         )
@@ -35,18 +36,20 @@ def main() -> None:
         print(f'one deep expression (depth {args.depth}): {plan_metrics("one deep expression", compact)}')
         print(f'{args.width} copies of that expression: {plan_metrics("repeated expressions", repeated)}')
 
-        equivalent = spark.range(32).select(deep_expression(args.depth).alias('value'))
+        equivalent = base.select(deep_expression(args.depth).alias('value'))
         left_plan = compact._jdf.queryExecution().analyzed()
         right_plan = equivalent._jdf.queryExecution().analyzed()
         try:
-            semantic_result = left_plan.sameResult(right_plan)
+            left_alias = left_plan.expressions().apply(0)
+            right_alias = right_plan.expressions().apply(0)
+            semantic_result = left_alias.child().semanticEquals(right_alias.child())
         except Exception as exc:  # Spark does not expose the expression method on every JVM wrapper.
             semantic_result = f'unavailable through this Py4J wrapper ({type(exc).__name__})'
-        print('semantic equivalence of equivalent analyzed logical plans:', semantic_result)
+        print('Expression.semanticEquals on equivalent child expressions:', semantic_result)
         print('canonicalized plan lengths:',
               len(left_plan.canonicalized().toString()),
               len(right_plan.canonicalized().toString()))
-        print('Conclusion: row count stays tiny while canonicalization and semantic comparison still see every expression node.')
+        print('Conclusion: row count stays tiny while canonicalization and semanticEquals still see every expression node.')
         print('Repeated deterministic expressions are a plan-shape cost; they are not made free by returning one scalar column per alias.')
     finally:
         spark.stop()
