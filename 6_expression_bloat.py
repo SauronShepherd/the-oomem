@@ -53,6 +53,7 @@ def main() -> None:
         except Exception as exc:  # Spark does not expose the expression method on every JVM wrapper.
             semantic_result = f'unavailable through this Py4J wrapper ({type(exc).__name__})'
         print('Expression.semanticEquals on equivalent child expressions:', semantic_result)
+        assert semantic_result is True, semantic_result
         print('canonicalized plan lengths:',
               len(left_plan.canonicalized().toString()),
               len(right_plan.canonicalized().toString()))

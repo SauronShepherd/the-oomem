@@ -49,6 +49,10 @@ def main() -> None:
     print('AQE on :', aqe_on)
     print('AQE off:', aqe_off)
     assert aqe_on['optimized_nodes'] == aqe_off['optimized_nodes']
+    assert aqe_on['initial_has_adaptive_wrapper'] is True
+    assert aqe_on['final_has_adaptive_wrapper'] is True
+    assert aqe_off['initial_has_adaptive_wrapper'] is False
+    assert aqe_off['final_has_adaptive_wrapper'] is False
     print('Conclusion: compare optimized logical shape first; session-local expression IDs can change text length, while AQE still only adds the physical adaptive wrapper and stage work.')
 
 
