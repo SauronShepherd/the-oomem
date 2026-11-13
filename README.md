@@ -5,7 +5,7 @@ examining Catalyst behavior behind the article. Lab 1 is an interactive
 notebook; the remaining experiments retain their small Python runners.
 
 The layout intentionally follows the other article labs: one shared
-`common.py`, one numbered experiment per question, a pinned requirements file,
+`common.py`, one numbered experiment per question, a small requirements file,
 and no hidden production data or generated trace dump.
 
 ## Install
