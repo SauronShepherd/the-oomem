@@ -119,9 +119,9 @@ def measure_optimization(frame: DataFrame, label: str) -> dict[str, float | int]
     before = jvm_heap(frame)
     started = time.perf_counter()
     optimized = query.optimizedPlan()
-    tree = optimized.treeString()
     elapsed = time.perf_counter() - started
     after = jvm_heap(frame)
+    tree = optimized.treeString()
     result: dict[str, float | int] = {
         'optimization_seconds': round(elapsed, 4),
         'optimized_nodes': len(tree.splitlines()),
