@@ -1,3 +1,9 @@
+"""Lab 4: compare two expressions of the same anti-matching business rule.
+
+Expected result: the right-outer/null-filter and left-anti forms return the
+same rows and schema for this fixture, while their optimized plan shapes differ.
+"""
+
 from collections import Counter
 from pyspark.sql import functions as F
 

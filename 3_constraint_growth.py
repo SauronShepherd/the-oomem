@@ -1,3 +1,11 @@
+"""Lab 3: grow alias-derived constraints while keeping the data bounded.
+
+Expected result: each step adds another Project plus two aliases, increasing
+the analyzed constraint set and plan text before any task is run. This is a
+bounded shape-growth observation, not a one-variable experiment, leak test,
+or production benchmark.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args

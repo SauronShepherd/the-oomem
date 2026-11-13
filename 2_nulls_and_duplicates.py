@@ -1,3 +1,10 @@
+"""Lab 2: show why a cheaper join rewrite can change null semantics.
+
+Expected result: ordinary equality keeps the unmatched null key, null-safe
+equality treats the two null keys as a match, and a nullable non-key filter
+changes the contract again. The frames are tiny; the point is the predicate.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args, row_counter

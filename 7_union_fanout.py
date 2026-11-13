@@ -1,3 +1,9 @@
+"""Lab 7: demonstrate plan breadth without using a join.
+
+Expected result: unionByName repeats branch trees, so analyzed plan size grows
+with branch count even though the input row count stays bounded.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args

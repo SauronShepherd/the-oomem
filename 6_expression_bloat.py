@@ -1,3 +1,10 @@
+"""Lab 6: make expression copying and semantic equality observable.
+
+Expected result: repeated deep expressions enlarge the analyzed plan, while
+equivalent child expressions derived from one base plan return True from the
+JVM's Expression.semanticEquals method.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args

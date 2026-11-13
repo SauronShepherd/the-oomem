@@ -1,3 +1,9 @@
+"""Lab 8: build nested CASE and boolean-OR expression trees.
+
+Expected result: a tiny range produces a deep analyzed expression tree; the
+pressure comes from expression shape, not join cardinality or row volume.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args

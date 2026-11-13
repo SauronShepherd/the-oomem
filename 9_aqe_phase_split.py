@@ -1,3 +1,9 @@
+"""Lab 9: separate AQE's physical wrapper from logical optimization.
+
+Expected result: AQE changes the physical/adaptive phase while the analyzed
+and optimized logical shapes remain comparable for the same query.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args
@@ -13,12 +19,16 @@ def run_case(args, adaptive: bool) -> dict[str, object]:
         frame = left.join(right, 'key').groupBy('key').count()
         query = frame._jdf.queryExecution()
 
+        analyzed = query.analyzed()
+        analyzed_tree = analyzed.treeString()
         optimization = measure_optimization(frame, f'AQE={adaptive} logical optimizer')
         initial_physical = query.executedPlan().treeString()
         frame.collect()
         final_physical = query.executedPlan().treeString()
         return {
             'adaptive': adaptive,
+            'analyzed_nodes': len(analyzed_tree.splitlines()),
+            'analyzed_characters': len(analyzed_tree),
             'optimization_seconds': optimization['optimization_seconds'],
             'optimized_nodes': optimization['optimized_nodes'],
             'optimized_characters': optimization['optimized_characters'],

@@ -1,3 +1,9 @@
+"""Lab 5: expose the logical-project staircase created by chained withColumn.
+
+Expected result: the loop has a deeper analyzed plan than one batched select,
+even though Catalyst may collapse both to a small optimized tree later.
+"""
+
 from pyspark.sql import functions as F
 
 from common import banner, get_spark, measure_optimization, parse_common_args

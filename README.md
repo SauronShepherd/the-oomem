@@ -54,9 +54,12 @@ The first lab is the failure reproduction: the original two-key `right_outer`
 shape, the checked-in `.schema` fixtures and binary-key decoding, generated-width
 projections, retained optimized-plan metadata, and the default 1 GB heap crossing
 into `OutOfMemoryError` during logical planning. The remaining
-labs isolate the pressure sources one at a time—constraints, nested projects,
-expression canonicalization, union fan-out, boolean trees, and AQE—so the reader
-can see why Catalyst spends CPU and heap before an executor is ever scheduled.
+labs focus on one pressure mechanism per bounded scenario—constraints, nested
+projects, expression canonicalization, union fan-out, boolean trees, outer versus
+anti shape, and AQE—so the reader can see why Catalyst spends CPU and heap before
+an executor is ever scheduled. They are explanatory probes, not one-variable
+benchmarks: for example, Lab 3 grows alias width and projection depth together
+and labels that limitation explicitly.
 Runners 2–9 use bounded inputs and do not tune Spark to make the numbers look
 better; Lab 1 is the deliberate exception because it must cross the default
 heap boundary to reproduce the incident.
